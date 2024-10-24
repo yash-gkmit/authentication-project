@@ -27,18 +27,17 @@ async function loginUser({ email, password }) {
 	return { token };
 }
 
-async function PublicAPI() {
-  try {
-    const response = await axios.get('https://www.alphavantage.co');
-    return response.data;
-  } catch (error) {
-    throw new Error('Error fetching public API data');
-  }
+async function publicAPI() {
+	try {
+		const response = await axios.get("https://www.alphavantage.co");
+		return response.data;
+	} catch (error) {
+		throw new Error("Error fetching public API data");
+	}
 }
 
 module.exports = {
-  registerUser,
-  loginUser,
-  PublicAPI
+	registerUser,
+	loginUser,
+	publicAPI,
 };
-
