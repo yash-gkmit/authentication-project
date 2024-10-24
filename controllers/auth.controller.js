@@ -1,17 +1,18 @@
 const authService = require('../services/auth.service.js');
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
     await authService.registerUser({ username, email, password });
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(500).json({ error: 'Registration failed' });
   }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -22,16 +23,16 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = (req, res) => {
+const logout = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };
 
-exports.activeUser = (req, res) => {
+const activeUser = (req, res) => {
   const { email, username } = req.user; 
   res.json({ email, username }); 
 };
 
-exports.fetchpublicAPI = async (req, res) => {
+const fetchpublicAPI = async (req, res) => {
   try {
     const publicData = await authService.publicAPI();
     res.json(publicData);
@@ -39,3 +40,5 @@ exports.fetchpublicAPI = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+module.exports = {register, login, logout, activeUser, fetchpublicAPI};

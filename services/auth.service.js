@@ -8,6 +8,12 @@ const jwt_expireIn = process.env.JWT_EXPIRESIN || "2h";
 
 async function registerUser({ username, email, password }) {
 	const hashedPassword = await bcrypt.hash(password, 10);
+
+	const existingUser = await User.findOne({ email });
+	if (existingUser) {
+		throw new Error("User already exists");
+	}
+
 	const newUser = new User({ username, email, password: hashedPassword });
 	return await newUser.save();
 }
@@ -21,8 +27,8 @@ async function loginUser({ email, password }) {
 
 	const token = jwt.sign(
 		{ username: user.username, email: user.email },
-		jwtSecret,
-		{ expiresIn: tokenExpiry },
+		jwt_secret,
+		{ expiresIn: jwt_expireIn },
 	);
 	return { token };
 }
