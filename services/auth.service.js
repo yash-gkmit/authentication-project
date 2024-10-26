@@ -1,7 +1,6 @@
 const User = require("../models/users.model.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const axios = require("axios");
 
 const jwt_secret = process.env.JWT_SECRET || "yashgupta";
 const jwt_expireIn = process.env.JWT_EXPIRESIN || "2h";
@@ -10,6 +9,7 @@ async function registerUser({ username, email, password }) {
 	const hashedPassword = await bcrypt.hash(password, 10);
 
 	const existingUser = await User.findOne({ email });
+
 	if (existingUser) {
 		throw new Error("User already exists");
 	}
@@ -33,17 +33,7 @@ async function loginUser({ email, password }) {
 	return { token };
 }
 
-async function publicAPI() {
-	try {
-		const response = await axios.get("https://www.alphavantage.co");
-		return response.data;
-	} catch (error) {
-		throw new Error("Error fetching public API data");
-	}
-}
-
 module.exports = {
 	registerUser,
 	loginUser,
-	publicAPI,
 };

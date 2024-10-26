@@ -27,18 +27,4 @@ const logout = (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 };
 
-const activeUser = (req, res) => {
-  const { email, username } = req.user; 
-  res.json({ email, username }); 
-};
-
-const fetchpublicAPI = async (req, res) => {
-  try {
-    const publicData = await authService.publicAPI();
-    res.json(publicData);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-module.exports = {register, login, logout, activeUser, fetchpublicAPI};
+module.exports = {register, login, logout};
