@@ -1,4 +1,4 @@
-const authService = require('../services/jokes.service.js');
+const authService = require("../services/jokes.service.js");
 
 const fetchpublicAPI = async (req, res) => {
   try {
